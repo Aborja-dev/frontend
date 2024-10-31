@@ -1,4 +1,6 @@
 import { AddPhone, Phone } from "../types/types"
+import axios from "axios"
+const baseURL = "https://phonebook-back-1pyk.onrender.com"
 export const Numbers = [
     {
       "id": 1,
@@ -51,19 +53,30 @@ export const Numbers = [
       "phone": "+1-555-0110"
     }
   ]
-export const addPhone = (newPhone: AddPhone): Phone => {
-  return {
-    id: Math.floor(Math.random() * 1000),
-    ...newPhone
-  }
+export const addPhone = async (newPhone: AddPhone): Promise<Phone> => {
+  const response = await axios.post(`${baseURL}/phonebook`, {
+    name: newPhone.name,
+    number: newPhone.phone
+  })
+  return response.data.data
+}
+interface Response {
+  id: string,
+  number: string,
+  name: string
+}
+export const loadPhones = async (): Promise<Phone[]> => {
+  const response = await axios.get(`${baseURL}/phonebook`)
+  return response.data.data.map((number: Response) => ({phone: number.number, name: number.name, id: (number.id)}))
 }
 
-export const loadPhones = (): Phone[] => Numbers
-
-export const deletePhone = (numbers: Phone[], id: number): Phone[] => {
-    return numbers.filter(number => number.id !== id)
+export const deletePhone = async (id: number): Promise<void> => {
+    await axios.delete(`${baseURL}/phonebook/${id}`)
 }
 
-export const editPhone = (numbers: Phone[], number: Phone): Phone[] => {
-    return numbers.map(item => item.id === number.id ? number : item)
+export const editPhone = async ( number: Phone): Promise<void> => {
+    await axios.put(`${baseURL}/phonebook/${number.id}`, {
+        name: number.name,
+        number: number.phone
+    })
 }

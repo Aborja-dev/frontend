@@ -3,15 +3,19 @@ import * as Service from "./Service"
 import { AddPhone, Phone } from "../types/types"
 
 export const usePhone = () => {
-    const [numbers, setNumbers ] = useState<Phone[]>(Service.loadPhones())
+    const [numbers, setNumbers ] = useState<Phone[]>([])
     const [current, _setCurrent] = useState<Phone | null>(null)
-    const addPhone = (newNumber: AddPhone) => {
-        const result = Service.addPhone(newNumber)
-        setNumbers((prevState) =>([...prevState, result]))
+    const addPhone = async (newNumber: AddPhone) => {
+        await Service.addPhone(newNumber)
+        await loadPhones()
     }
-    const deletePhone = ( id: number) => {
-        const result = Service.deletePhone(numbers, id)
+    const loadPhones = async () => {
+        const result = await Service.loadPhones()
         setNumbers(result)
+    }
+    const deletePhone = async( id: number) => {
+        await Service.deletePhone(id)
+        await loadPhones()
     }
     const setCurrent = (number: Phone | null) => {
         _setCurrent(number)
@@ -19,9 +23,9 @@ export const usePhone = () => {
     const resetCurrent = () => {
         _setCurrent(null)
     }
-    const editPhone = (number: Phone) => {
-        const result = Service.editPhone(numbers, number)
-        setNumbers(result)
+    const editPhone = async (number: Phone) => {
+        await Service.editPhone(number)
+        await loadPhones()
     }
     return {
         addPhone,
@@ -30,7 +34,8 @@ export const usePhone = () => {
         current,
         setCurrent,
         resetCurrent,
-        editPhone
+        editPhone,
+        loadPhones
     }
 }
 

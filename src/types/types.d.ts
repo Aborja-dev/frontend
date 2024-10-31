@@ -1,5 +1,5 @@
 export interface Phone {
-    id: number
+    id: number | string
     name: string
     phone: string
   }
