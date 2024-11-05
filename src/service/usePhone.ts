@@ -23,7 +23,7 @@ export const usePhone = () => {
         const result = await Service.loadPhones()
         setNumbers(result)
     }
-    const deletePhone = async( id: number) => {
+    const deletePhone = async( id: string) => {
         setState(STATE.LOADING)
         await Service.deletePhone(id)
         await _loadPhones()

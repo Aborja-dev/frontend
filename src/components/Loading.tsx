@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactLogo from "../assets/react.svg";
 const Loading = () => {
   return (

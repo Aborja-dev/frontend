@@ -8,7 +8,7 @@ const Item = ({ number }: {
   number: Phone
 }) => {
   const { deletePhone, setCurrent } = useContext(GlobalContext)
-  const onDelete = (id: number) => deletePhone(id)
+  const onDelete = (id: string) => deletePhone(id)
   const onEdit = () => setCurrent(number)
   return (
     <li className='flex justify-between items-center'>
@@ -18,7 +18,7 @@ const Item = ({ number }: {
       </div>
       <div className='flex gap-4'>
         <Button className='bg-orange-900' onClick={onEdit}>Editar</Button>
-        <Button.Danger onClick={() => onDelete(+number.id)}>Eliminar</Button.Danger>
+        <Button.Danger onClick={() => onDelete(number.id as string)}>Eliminar</Button.Danger>
       </div>
     </li>
   )
