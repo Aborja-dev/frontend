@@ -1,6 +1,8 @@
 import { AddPhone, Phone, PhoneResponse } from "../types/types"
 import axios from "axios"
-const baseURL = "https://phonebook-back-1pyk.onrender.com"
+const baseURL = import.meta.env.VITE_BASE_URL || "http://localhost:3000"
+console.log(baseURL);
+
 export const addPhone = async (newPhone: AddPhone): Promise<Phone> => {
   const response = await axios.post(`${baseURL}/phonebook`, {
     name: newPhone.name,
