@@ -1,4 +1,4 @@
-import { AddPhone, Phone } from "../types/types"
+import { AddPhone, Phone, PhoneResponse } from "../types/types"
 import axios from "axios"
 const baseURL = "https://phonebook-back-1pyk.onrender.com"
 export const Numbers = [
@@ -66,7 +66,7 @@ interface Response {
   name: string
 }
 export const loadPhones = async (): Promise<Phone[]> => {
-  const response = await axios.get(`${baseURL}/phonebook`)
+  const response = await axios.get<{data: PhoneResponse[]}>(`${baseURL}/phonebook`)
   return response.data.data.map((number: Response) => ({phone: number.number, name: number.name, id: (number.id)}))
 }
 

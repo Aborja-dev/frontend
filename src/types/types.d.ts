@@ -8,3 +8,9 @@ export interface Phone {
     name: string
     phone: string
   }
+
+export interface PhoneResponse {
+    id: string
+    name: string
+    number: string
+}
